@@ -92,6 +92,7 @@ namespace PicBad
 
         private void InitDownLoadView()
         {
+            FileCompletedCount = 0;
             FileCount = 0;
             progressBar1.Value = 0;
             progressBar2.Value = 0;
@@ -122,6 +123,17 @@ namespace PicBad
         {
             Clipboard.SetDataObject(ClipboardHelper.MarkdownText(richTextBox1.Lines), true);
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(ClipboardHelper.HtmlText(richTextBox1.Lines,textBox1.Text,textBox2.Text,checkBox1.Checked,checkBox2.Checked), true);
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = "";
         }
     }
 }
