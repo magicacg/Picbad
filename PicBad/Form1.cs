@@ -42,8 +42,6 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-
-
                     String Json = await UploadToTourouAsync(line);
                     richTextBox1.AppendText("https://wx1.sinaimg.cn/large/" + Json + ".jpg?Fname=" + Path.GetFileNameWithoutExtension(line)+"\r\n");
 
@@ -108,6 +106,22 @@ namespace PicBad
         private void button3_Click(object sender, EventArgs e)
         {
             Clipboard.SetDataObject(ClipboardHelper.PureText(richTextBox1.Lines), true);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            String[] FileInfo = Regex.Split("https://wx1.sinaimg.cn/large/a15b4afegy1fnpoyjdm9wj20u01900xz.jpg?Fname=donshofertumblr_p1svxfcr3H1rjk2kao2_1280", "\\?Fname=");
+            foreach (String line in FileInfo) {
+
+                Console.WriteLine(line);
+            }
+            Console.WriteLine(ClipboardHelper.MarkdownText(new string[] { "https://wx1.sinaimg.cn/large/a15b4afegy1fnpoyjdm9wj20u01900xz.jpg?Fname=donshofertumblr_p1svxfcr3H1rjk2kao2_1280" }));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(ClipboardHelper.MarkdownText(richTextBox1.Lines), true);
+
         }
     }
 }
