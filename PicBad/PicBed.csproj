@@ -57,6 +57,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ClipboardHelper.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="PicWebHelper\Tourou.cs" />
