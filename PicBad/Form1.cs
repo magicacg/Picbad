@@ -20,9 +20,18 @@ namespace PicBad
         public PicBedFrom()
         {
             InitializeComponent();
-        }/// <summary>
-         /// 用于记录缓存用户选了多少文件
-         /// </summary>
+            InitView();
+        }
+
+        private void InitView()
+        {
+            comboBox1.SelectedIndex = 0;
+           this.Icon= Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
+
+        /// <summary>
+        /// 用于记录缓存用户选了多少文件
+        /// </summary>
         int FileCount = 0;
         /// <summary>
         /// 用于记录上传成功多少个
@@ -42,17 +51,14 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-                    //CATUP(line);
-                  
-                    Console.WriteLine(line);
-                    ILoli.UploadImg(line);
                  
-                    // await UploadTourou(line);
+
+                await    SwitchUploadAsync(line);
 
                 }
                 if (FileCompletedCount < FileCount) {
                    
-                  //  MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
+              MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
                 }
             }
             else
@@ -62,15 +68,45 @@ namespace PicBad
             InitDownLoadView();
         }
 
-
- 
-
-   
-        private async Task UploadTourou(string line)
+        private async Task SwitchUploadAsync(string line)
         {
-            String Json = await UploadToTourouAsync(line);
-            richTextBox1.AppendText("https://wx1.sinaimg.cn/large/" + Json + ".jpg?Fname=" + Path.GetFileNameWithoutExtension(line) + "\r\n");
+            String ImgUrl = "";
+            if (comboBox1.SelectedIndex == 0)
+            {
+
+                ImgUrl= await IloliUpoadAsync(line);
+
+            }
+            else {
+                ImgUrl = await UploadToTourouAsync(line);
+                if(ImgUrl!="")
+                    ImgUrl=     "https://wx1.sinaimg.cn/large/" + ImgUrl + ".jpg";
+
+
+            }
+            if(ImgUrl!="")
+                richTextBox1.AppendText(ImgUrl+ "?Fname=" + Path.GetFileNameWithoutExtension(line) + "\r\n");
         }
+
+        private async Task<String> IloliUpoadAsync(string line)
+        {
+
+
+            String ImgUrl = "";
+            ImgUrl = await ILoli.UploadImgAsync(line, uploadProgress);
+            if (ImgUrl != "")
+            {
+                FileCompletedCount++;
+                progressBar1.Value = (int)((float)FileCompletedCount / FileCount * 100);
+              
+            }
+            else {
+                Console.WriteLine("失败"+line);
+            }
+            return ImgUrl;
+        }
+
+    
 
         private async Task<string> UploadToTourouAsync(string line)
         {/// await Tourou.UploadFileAsync(line)
@@ -93,13 +129,16 @@ namespace PicBad
 
         private void uploadProgress(object sender, UploadProgressChangedEventArgs e)
         {
+           
+            if(e.ProgressPercentage>0)
             progressBar2.Value = e.ProgressPercentage;
-            Console.WriteLine(e.ProgressPercentage);
+         
         }
 
         private void uploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
         {
             FileCompletedCount++;
+           
             progressBar1.Value = (int)((float)FileCompletedCount / FileCount * 100);
             Console.WriteLine("一个完成");
         }
@@ -125,12 +164,7 @@ namespace PicBad
 
         private void button5_Click(object sender, EventArgs e)
         {
-            String[] FileInfo = Regex.Split("https://wx1.sinaimg.cn/large/a15b4afegy1fnpoyjdm9wj20u01900xz.jpg?Fname=donshofertumblr_p1svxfcr3H1rjk2kao2_1280", "\\?Fname=");
-            foreach (String line in FileInfo) {
-
-                Console.WriteLine(line);
-            }
-            Console.WriteLine(ClipboardHelper.MarkdownText(new string[] { "https://wx1.sinaimg.cn/large/a15b4afegy1fnpoyjdm9wj20u01900xz.jpg?Fname=donshofertumblr_p1svxfcr3H1rjk2kao2_1280" }));
+            System.Diagnostics.Process.Start(".\\");
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -148,6 +182,11 @@ namespace PicBad
         private void button6_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(comboBox1.SelectedIndex);
         }
     }
 }

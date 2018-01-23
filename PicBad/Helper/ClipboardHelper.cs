@@ -36,12 +36,11 @@ namespace PicBed.Helper
             {
                 if (line != "")
                 {
-                    Console.WriteLine(line);
+                  
                     String[] FileInfo = Regex.Split(line, "\\?Fname=");
                     if (FileInfo.Count() == 2)
                     {
-                        Console.WriteLine(FileInfo[0]);
-                        Console.WriteLine(FileInfo[1]);
+                    
                         ClipboardText += "\r\n" + String.Format("![{0}]({1} \"{2}\")", FileInfo[1], FileInfo[0], FileInfo[1]);
                     }
                     else {
@@ -68,13 +67,12 @@ namespace PicBed.Helper
                 String ImgUrl = line;
                 if (line != "")
                 {
-                    Console.WriteLine(line);
+                  
                     String[] FileInfo = Regex.Split(ImgUrl, "\\?Fname=");
                     if (FileInfo.Count() == 2)
                     {
                         ImgUrl = FileInfo[0];
-                        Console.WriteLine(FileInfo[0]);
-                        Console.WriteLine(FileInfo[1]);
+                     
                         TempString = "\r\n" + String.Format("<img src=\"{0}\" alt=\"{1}\" class=\"{2}\" id=\"{3}\">", FileInfo[0], FileInfo[1],ImgClass,ImgId );
                     }
                     else
