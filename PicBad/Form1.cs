@@ -21,8 +21,8 @@ namespace PicBad
         {
             InitializeComponent();
         }/// <summary>
-        /// 用于记录缓存用户选了多少文件
-        /// </summary>
+         /// 用于记录缓存用户选了多少文件
+         /// </summary>
         int FileCount = 0;
         /// <summary>
         /// 用于记录上传成功多少个
@@ -32,7 +32,7 @@ namespace PicBad
         {
             UploadImgAsync();
         }
-       
+        WebClient webClient = new CookieAwareWebClient();
         private async Task UploadImgAsync()
         {
             List<String> FileList = new List<string>();
@@ -42,13 +42,35 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-                    String Json = await UploadToTourouAsync(line);
-                    richTextBox1.AppendText("https://wx1.sinaimg.cn/large/" + Json + ".jpg?Fname=" + Path.GetFileNameWithoutExtension(line)+"\r\n");
+                    Console.WriteLine(line);
+              
+                    string boundary = "boundary---------------------------" + DateTime.Now.Ticks.ToString("x");
+                    webClient.Headers.Add("Host", "sm.ms");
+                    webClient.Headers.Add("Referer", "https://sm.ms/");
+                    webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0");
+                    
+                    webClient.Headers.Add("Content-Type","multipart/form-data;"+ boundary.Replace("boundary", "boundary="));
+                    String Header = boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\n"
+                      + "Content-Type: image/jpeg\r\n\r\n";
+
+                    byte[] HeaderByte = Encoding.ASCII.GetBytes(Header);
+                    byte[] File = StreamToBytes(System.IO.File.OpenRead(line)) ;
+                    byte[] EndByte = Encoding.ASCII.GetBytes("\r\n" + boundary+"--");
+                    /*
+
+                        Content-Disposition: form-data; name="smfile"; filename="donshofertumblr_p1rvhwAs2W1rjk2kao3_1280.jpg"
+   
+                        */
+                    byte[] Upload = CopyToBig(HeaderByte, File);
+                    Upload = CopyToBig(Upload, EndByte);
+                    Byte[] responseArray = webClient.UploadData("https://sm.ms/api/upload", "POST",Upload);
+                    Console.WriteLine(Encoding.ASCII.GetString(responseArray));
+                    // await UploadTourou(line);
 
                 }
                 if (FileCompletedCount < FileCount) {
-                    Console.WriteLine();
-                    MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
+                   
+                  //  MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
                 }
             }
             else
@@ -56,6 +78,30 @@ namespace PicBad
                 MessageBox.Show("每次最多上传50张!(太多图片很可能被封IP哦！请妥善使用！)");
             }
             InitDownLoadView();
+        }
+
+        /// 将 Stream 转成 byte[]
+
+        public byte[] StreamToBytes(Stream stream)
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            // 设置当前流的位置为流的开始
+            stream.Seek(0, SeekOrigin.Begin);
+            return bytes;
+        }
+        private byte[] CopyToBig(byte[] bBig, byte[] bSmall)
+        {
+            byte[] tmp = new byte[bBig.Length + bSmall.Length];
+            System.Buffer.BlockCopy(bBig, 0, tmp, 0, bBig.Length);
+            System.Buffer.BlockCopy(bSmall, 0, tmp, bBig.Length, bSmall.Length);
+            return tmp;
+        }
+
+        private async Task UploadTourou(string line)
+        {
+            String Json = await UploadToTourouAsync(line);
+            richTextBox1.AppendText("https://wx1.sinaimg.cn/large/" + Json + ".jpg?Fname=" + Path.GetFileNameWithoutExtension(line) + "\r\n");
         }
 
         private async Task<string> UploadToTourouAsync(string line)
