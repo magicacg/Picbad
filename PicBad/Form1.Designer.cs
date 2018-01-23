@@ -252,9 +252,9 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "ILOLI(香港)",
-            "小贱贱(SINA)",
-            "偷揉(SINA)"});
+            "ILOLI(无损)",
+            "Upload.cc(无损)",
+            "偷揉(有损)"});
             this.comboBox1.Location = new System.Drawing.Point(21, 185);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 20);

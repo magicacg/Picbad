@@ -51,9 +51,9 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-                 
 
-                await    SwitchUploadAsync(line);
+               
+           await    SwitchUploadAsync(line);
 
                 }
                 if (FileCompletedCount < FileCount) {
@@ -74,18 +74,41 @@ namespace PicBad
             if (comboBox1.SelectedIndex == 0)
             {
 
-                ImgUrl= await IloliUpoadAsync(line);
+                ImgUrl = await IloliUpoadAsync(line);
 
             }
-            else {
+            else if (comboBox1.SelectedIndex == 1) {
+
+                ImgUrl = await UploadTUploadccAsync(line);
+
+             
+            }
+            else
+            {
                 ImgUrl = await UploadToTourouAsync(line);
-                if(ImgUrl!="")
-                    ImgUrl=     "https://wx1.sinaimg.cn/large/" + ImgUrl + ".jpg";
+                if (ImgUrl != "")
+                    ImgUrl = "https://wx1.sinaimg.cn/large/" + ImgUrl + ".jpg";
 
 
             }
             if(ImgUrl!="")
                 richTextBox1.AppendText(ImgUrl+ "?Fname=" + Path.GetFileNameWithoutExtension(line) + "\r\n");
+        }
+
+        private async Task<string> UploadTUploadccAsync(string line)
+        {
+            String ImgUrl = "";
+            ImgUrl =  await UploadCc.UploadImgAsync(line, uploadProgress);
+            if (ImgUrl != "")
+            {
+                ProgerssBarResflush();
+
+            }
+            else
+            {
+                Console.WriteLine("失败" + line);
+            }
+            return ImgUrl;
         }
 
         private async Task<String> IloliUpoadAsync(string line)
@@ -96,17 +119,23 @@ namespace PicBad
             ImgUrl = await ILoli.UploadImgAsync(line, uploadProgress);
             if (ImgUrl != "")
             {
-                FileCompletedCount++;
-                progressBar1.Value = (int)((float)FileCompletedCount / FileCount * 100);
-              
+                ProgerssBarResflush();
+
             }
             else {
                 Console.WriteLine("失败"+line);
             }
             return ImgUrl;
         }
+        /// <summary>
+        /// 刷新总进度
+        /// </summary>
+        private void ProgerssBarResflush()
+        {
+            FileCompletedCount++;
+            progressBar1.Value = (int)((float)FileCompletedCount / FileCount * 100);
+        }
 
-    
 
         private async Task<string> UploadToTourouAsync(string line)
         {/// await Tourou.UploadFileAsync(line)

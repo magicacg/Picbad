@@ -42,7 +42,7 @@ namespace PicBed.PicWebHelper
             listcat.Add(File);
             /*如需其他自定义字段，请自行定义然后添加到listcat中，下面的copybit会自动合并所有数据*/
             listcat.Add(EndByte);
-            byte[] bytes = COPYBIT(listcat);
+            byte[] bytes = ByteHelper.MergeByte(listcat);
 
 
 
@@ -82,33 +82,7 @@ namespace PicBed.PicWebHelper
             stream.Seek(0, SeekOrigin.Begin);
             return bytes;
         }
-        /// <summary>
-        /// 处理bit数据进行合并
-        /// </summary>
-        /// <param name="listcat"></param>
-        /// <returns></returns>
-        private static byte[] COPYBIT(List<byte[]> listcat)
-        {
-            int length = 0;
-            int readLength = 0;
-
-            //将List里的数组相加，累加起来看到底多少个。
-            foreach (byte[] b in listcat)
-            {
-               // Console.WriteLine("当前数据大小:" + b.Length);
-                length += b.Length;
-            }
-            //根据大小建立对应的数组
-            byte[] bytes = new byte[length];
-            //依次拷贝数据
-            foreach (byte[] b in listcat)
-            {
-                b.CopyTo(bytes, readLength);
-                readLength += b.Length;
-            }
-
-            return bytes;
-        }
+    
     }
 
 
