@@ -25,7 +25,12 @@ namespace PicBad
 
         private void InitView()
         {
-            comboBox1.SelectedIndex = 0;
+            if (File.Exists(".\\flag.dat"))
+                comboBox1.SelectedIndex = 2;
+            else {
+                comboBox1.SelectedIndex = 0;
+                comboBox1.Items.RemoveAt(2);
+            }
            this.Icon= Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 

@@ -84,7 +84,7 @@ namespace PicBed.Helper
                       
                     }
                     if (Lightbox) {
-                        TempString = TempString.Replace("<a  href=", "<a class=\"example-image-link\" data-lightbox=\"image-1\" data-title=\"\"  href=\"");
+                        TempString = TempString.Replace("<a  href=\"", "<a class=\"example-image-link\" data-lightbox=\"image-1\" data-title=\"\"  href=\"");
                     }
                 }
                 ClipboardText += TempString;
