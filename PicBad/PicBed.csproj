@@ -65,12 +65,21 @@
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="PicWebHelper\ILoli.cs" />
+    <Compile Include="PicWebHelper\ReadMeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PicWebHelper\ReadMeView.Designer.cs">
+      <DependentUpon>ReadMeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="PicWebHelper\Tourou.cs" />
     <Compile Include="PicWebHelper\UploadCc.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PicWebHelper\ReadMeView.resx">
+      <DependentUpon>ReadMeView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

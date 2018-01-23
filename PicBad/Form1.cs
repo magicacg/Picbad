@@ -222,5 +222,10 @@ namespace PicBad
         {
             System.Diagnostics.Process.Start("http://acg12.net");
         }
+
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            new ReadMeView().ShowDialog();
+        }
     }
 }

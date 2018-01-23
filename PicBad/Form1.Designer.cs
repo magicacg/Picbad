@@ -50,6 +50,8 @@
             this.button6 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -230,7 +232,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(245, 227);
+            this.button5.Location = new System.Drawing.Point(278, 227);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 6;
@@ -240,7 +242,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(140, 227);
+            this.button6.Location = new System.Drawing.Point(186, 227);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 7;
@@ -270,11 +272,32 @@
             this.label5.Text = "更新/维护/问题反馈点此";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(21, 280);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(317, 12);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "所有节点均不允许上传非法图片，且会自动检测，请知悉。";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(497, 441);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 11;
+            this.button7.Text = "鸣谢";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click_1);
+            // 
             // PicBedFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(743, 467);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button6);
@@ -319,6 +342,8 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button7;
     }
 }
 
