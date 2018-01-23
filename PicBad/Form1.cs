@@ -217,5 +217,10 @@ namespace PicBad
         {
             Console.WriteLine(comboBox1.SelectedIndex);
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://acg12.net");
+        }
     }
 }

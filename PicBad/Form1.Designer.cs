@@ -49,7 +49,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button7 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -230,7 +230,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(553, 399);
+            this.button5.Location = new System.Drawing.Point(245, 227);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 6;
@@ -260,22 +260,22 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 20);
             this.comboBox1.TabIndex = 8;
             // 
-            // button7
+            // label5
             // 
-            this.button7.Location = new System.Drawing.Point(267, 227);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 9;
-            this.button7.Text = "button7";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(594, 446);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(137, 12);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "更新/维护/问题反馈点此";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // PicBedFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(743, 467);
-            this.Controls.Add(this.button7);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -292,6 +292,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -317,7 +318,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label5;
     }
 }
 
