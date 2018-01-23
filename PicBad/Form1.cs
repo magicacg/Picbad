@@ -46,23 +46,26 @@ namespace PicBad
                   
                     Console.WriteLine(line);
               
-                    string boundary = "boundary---------------------------" + DateTime.Now.Ticks.ToString("x");
+                    string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
                   //  webClient.Headers.Add("Host", "sm.ms");
                   
                     webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0");
                     
-                    webClient.Headers.Add("Content-Type","multipart/form-data;"+ boundary.Replace("boundary", "boundary="));
-                    String Header = "--" + boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+                    webClient.Headers.Add("Content-Type", "multipart/form-data; boundary="+boundary);
+                    String Header = "--"+ boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n";
 
 
                     byte[] HeaderByte = Encoding.UTF8.GetBytes(Header);
                     byte[] File = StreamToBytes(System.IO.File.OpenRead(line)) ;
-                    byte[] EndByte = Encoding.UTF8.GetBytes("\r\n" +boundary+"--");
-                 
-                    
-                    byte[] Upload = CopyToBig(HeaderByte, File);
-                    Upload = CopyToBig(Upload, EndByte);
-                    Byte[] responseArray = webClient.UploadData("https://sm.ms/api/upload", "POST",Upload);
+                    byte[] EndByte = Encoding.UTF8.GetBytes("\r\n--" +boundary+"--");
+                
+                    List<Byte[]> listcat = new List<byte[]>();
+                    listcat.Add(HeaderByte);
+                    listcat.Add(File);
+                    listcat.Add(EndByte);
+                    byte[] bytes = COPYBIT(listcat);
+                    Console.WriteLine(bytes.Length);
+                    Byte[] responseArray = webClient.UploadData("https://sm.ms/api/upload", "POST", bytes);
                     Console.WriteLine(Encoding.UTF8.GetString(responseArray));
                  
                     // await UploadTourou(line);
@@ -78,6 +81,29 @@ namespace PicBad
                 MessageBox.Show("每次最多上传50张!(太多图片很可能被封IP哦！请妥善使用！)");
             }
             InitDownLoadView();
+        }
+
+        private byte[] COPYBIT(List<byte[]> listcat)
+        {
+           int length = 0;
+            int readLength = 0;
+          
+           
+            foreach (byte[] b in listcat)
+            {
+                Console.WriteLine("b:"+b.Length);
+                length += b.Length;
+            }
+
+            byte[] bytes = new byte[length];
+
+            foreach (byte[] b in listcat)
+            {
+                b.CopyTo(bytes, readLength);
+                readLength += b.Length;
+            }
+
+            return bytes;
         }
 
         private static void CATUP(string line)
