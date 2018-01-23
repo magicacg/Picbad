@@ -32,7 +32,7 @@ namespace PicBad
         {
             UploadImgAsync();
         }
-        WebClient webClient = new CookieAwareWebClient();
+        WebClient webClient = new WebClient();
         private async Task UploadImgAsync()
         {
             List<String> FileList = new List<string>();
@@ -42,29 +42,29 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
+                    //CATUP(line);
+                  
                     Console.WriteLine(line);
               
                     string boundary = "boundary---------------------------" + DateTime.Now.Ticks.ToString("x");
-                    webClient.Headers.Add("Host", "sm.ms");
-                    webClient.Headers.Add("Referer", "https://sm.ms/");
+                  //  webClient.Headers.Add("Host", "sm.ms");
+                  
                     webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0");
                     
                     webClient.Headers.Add("Content-Type","multipart/form-data;"+ boundary.Replace("boundary", "boundary="));
-                    String Header = boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\n"
-                      + "Content-Type: image/jpeg\r\n\r\n";
+                    String Header = "--" + boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n";
 
-                    byte[] HeaderByte = Encoding.ASCII.GetBytes(Header);
+
+                    byte[] HeaderByte = Encoding.UTF8.GetBytes(Header);
                     byte[] File = StreamToBytes(System.IO.File.OpenRead(line)) ;
-                    byte[] EndByte = Encoding.ASCII.GetBytes("\r\n" + boundary+"--");
-                    /*
-
-                        Content-Disposition: form-data; name="smfile"; filename="donshofertumblr_p1rvhwAs2W1rjk2kao3_1280.jpg"
-   
-                        */
+                    byte[] EndByte = Encoding.UTF8.GetBytes("\r\n" +boundary+"--");
+                 
+                    
                     byte[] Upload = CopyToBig(HeaderByte, File);
                     Upload = CopyToBig(Upload, EndByte);
                     Byte[] responseArray = webClient.UploadData("https://sm.ms/api/upload", "POST",Upload);
-                    Console.WriteLine(Encoding.ASCII.GetString(responseArray));
+                    Console.WriteLine(Encoding.UTF8.GetString(responseArray));
+                 
                     // await UploadTourou(line);
 
                 }
@@ -78,6 +78,22 @@ namespace PicBad
                 MessageBox.Show("每次最多上传50张!(太多图片很可能被封IP哦！请妥善使用！)");
             }
             InitDownLoadView();
+        }
+
+        private static void CATUP(string line)
+        {
+            var httpUpload = new HttpUpload();
+
+
+            FileStream fspdf = new FileStream(line, FileMode.Open);
+            byte[] fileBytepdf = new byte[fspdf.Length];
+            fspdf.Read(fileBytepdf, 0, fileBytepdf.Length);
+            fspdf.Close();
+            var pdfName = line.Substring(line.LastIndexOf("\\") + 1);
+            httpUpload.SetFieldValue("smfile", pdfName, "application/octet-stream", fileBytepdf);
+            string responStr = "";
+            bool responseArray = httpUpload.Upload("https://sm.ms/api/upload", out responStr);
+            Console.WriteLine(responseArray);
         }
 
         /// 将 Stream 转成 byte[]
