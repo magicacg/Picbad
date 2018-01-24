@@ -57,30 +57,8 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-                    Console.WriteLine(line);
-                    WebClient webClient = new WebClient();
-                    string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-                    webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0");
-                    webClient.Headers.Add("Content-Type", "multipart/form-data;charset=utf-8;boundary=" + boundary);
-                 //   webClient.Headers.Add("Referer", "https://pixhost.org/");
-                    webClient.Headers.Add("Accept", "application/json");
-                
-                    byte[] HeaderByte = Encoding.UTF8.GetBytes(CreateHeadInfo(boundary, "img","") + string.Format(";filename=\"{0}\"\r\nContent-Type: image/jpeg\r\n\r\n", Path.GetFileName(line)));
-                    byte[] File = ByteHelper.StreamToBytes(System.IO.File.OpenRead(line));//读取文件
-                    byte[] EndByte = Encoding.UTF8.GetBytes("\r\n"+CreateHeadInfo(boundary, "content_type", "\r\n\r\n0")+"\r\n--" + boundary + "--");
-
-                    List<Byte[]> listcat = new List<byte[]>();
-                    listcat.Add(HeaderByte);
-                    listcat.Add(File);
-                    /*如需其他自定义字段，请自行定义然后添加到listcat中，下面的copybit会自动合并所有数据*/
-                    listcat.Add(EndByte);
-                    byte[] bytes = ByteHelper.MergeByte(listcat);
-                    
-                    byte[] responseArray =  webClient.UploadData(new Uri("https://api.pixhost.org/images"), "POST", bytes);
-                
-                    String Shtml = Encoding.UTF8.GetString(responseArray);
-                    Console.WriteLine(Shtml);
-
+              string cat=await      Pixhost.UploadImgAsync(line, uploadProgress);
+                    File.AppendAllText(".\\222.txt",cat);
                     // await SwitchUploadAsync(line);
 
                 }
@@ -97,13 +75,6 @@ namespace PicBad
             InitDownLoadView();
         }
 
-        private String CreateHeadInfo(string boundary, string FormName, string Value)
-        {
-         
-            String Header = "--" + boundary + "\r\n" + string.Format("Content-Disposition: form-data; name=\"{0}\"{1}", FormName, Value);
-            Console.WriteLine(Header);
-            return Header;
-        }
 
         private async Task SwitchUploadAsync(string line)
         {
@@ -269,7 +240,7 @@ namespace PicBad
 
         private void button8_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(CreateHeadInfo("buddddd", "img", ""));
+           
         }
     }
 }

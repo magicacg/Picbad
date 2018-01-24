@@ -10,7 +10,20 @@ namespace PicBed.Helper
     class ByteHelper
     {
 
+        /// <summary>
+        /// 创建标题头
+        /// </summary>
+        /// <param name="boundary"></param>
+        /// <param name="FormName"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public static String CreateHeadInfo(string boundary, string FormName, string Value)
+        {
 
+            String Header = "--" + boundary + "\r\n" + string.Format("Content-Disposition: form-data; name=\"{0}\"{1}", FormName, Value);
+            Console.WriteLine(Header);
+            return Header;
+        }
 
         /// 将 Stream 转成 byte[]
 

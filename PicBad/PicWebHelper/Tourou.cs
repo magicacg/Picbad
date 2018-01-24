@@ -35,9 +35,7 @@ namespace PicBed.PicWebHelper
 
                 byte[] responseArray = await ImgUpLoad.UploadFileTaskAsync(new Uri("https://x.mouto.org/wb/x.php?up&_r="+new Random().NextDouble()), FileName);
 
-            // Decode and display the response.
-          
-            //   Console.WriteLine("\nResponse received was :\n{0}", Html);
+        
 
                 String JsonText = Encoding.UTF8.GetString(responseArray);
 

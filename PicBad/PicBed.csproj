@@ -65,6 +65,7 @@
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="PicWebHelper\ILoli.cs" />
+    <Compile Include="PicWebHelper\Pixhost.cs" />
     <Compile Include="PicWebHelper\ReadMeView.cs">
       <SubType>Form</SubType>
     </Compile>
