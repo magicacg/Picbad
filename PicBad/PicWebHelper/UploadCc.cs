@@ -35,7 +35,7 @@ namespace PicBed.PicWebHelper
 
             String Header = "--" + boundary + "\r\n" + "Content-Disposition: form-data; name=\"uploaded_file[]\"; filename=\"" + Path.GetFileName(line) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n";
             byte[] HeaderByte = Encoding.UTF8.GetBytes(Header);
-            byte[] File = ILoli. StreamToBytes(System.IO.File.OpenRead(line));//读取文件
+            byte[] File = ByteHelper. StreamToBytes(System.IO.File.OpenRead(line));//读取文件
             byte[] EndByte = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--");
 
             List<Byte[]> listcat = new List<byte[]>();

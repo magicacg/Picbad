@@ -34,7 +34,7 @@ namespace PicBed.PicWebHelper
 
             String Header = "--" + boundary + "\r\n" + "Content-Disposition: form-data; name=\"smfile\"; filename=\"" + Path.GetFileName(line) + "\"\r\nContent-Type: application/octet-stream\r\n\r\n";
             byte[] HeaderByte = Encoding.UTF8.GetBytes(Header);
-            byte[] File = StreamToBytes(System.IO.File.OpenRead(line));//读取文件
+            byte[] File =ByteHelper. StreamToBytes(System.IO.File.OpenRead(line));//读取文件
             byte[] EndByte = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--");
 
             List<Byte[]> listcat = new List<byte[]>();
@@ -71,17 +71,6 @@ namespace PicBed.PicWebHelper
             return ImgUrl;
         }
 
-
-        /// 将 Stream 转成 byte[]
-
-        public static byte[] StreamToBytes(Stream stream)
-        {
-            byte[] bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            // 设置当前流的位置为流的开始
-            stream.Seek(0, SeekOrigin.Begin);
-            return bytes;
-        }
     
     }
 
