@@ -26,11 +26,11 @@ namespace PicBad
         private void InitView()
         {
             if (File.Exists(".\\flag.dat"))
-                comboBox1.SelectedIndex = 2;
+                comboBox1.SelectedIndex = 3;
             else
             {
                 comboBox1.SelectedIndex = 0;
-                comboBox1.Items.RemoveAt(2);
+                comboBox1.Items.RemoveAt(3);
             }
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
@@ -57,15 +57,15 @@ namespace PicBad
             {
                 foreach (String line in FileList)
                 {
-              string cat=await      Pixhost.UploadImgAsync(line, uploadProgress);
-                    File.AppendAllText(".\\222.txt",cat);
-                    // await SwitchUploadAsync(line);
+
+
+                    await SwitchUploadAsync(line);
 
                 }
                 if (FileCompletedCount < FileCount)
                 {
 
-                  //  MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
+                   MessageBox.Show(String.Format("有{0}个上传失败", FileCount - FileCompletedCount));
                 }
             }
             else
@@ -93,6 +93,13 @@ namespace PicBad
 
             }
             else
+
+            if (comboBox1.SelectedIndex == 2)
+            {
+                ImgUrl = await Pixhost.UploadImgAsync(line, uploadProgress);
+                Refluesh(line, ImgUrl);
+            }
+            else
             {
                 ImgUrl = await UploadToTourouAsync(line);
                 if (ImgUrl != "")
@@ -108,6 +115,12 @@ namespace PicBad
         {
             String ImgUrl = "";
             ImgUrl = await UploadCc.UploadImgAsync(line, uploadProgress);
+            Refluesh(line, ImgUrl);
+            return ImgUrl;
+        }
+
+        private void Refluesh(string line, string ImgUrl)
+        {
             if (ImgUrl != "")
             {
                 ProgerssBarResflush();
@@ -117,24 +130,13 @@ namespace PicBad
             {
                 Console.WriteLine("失败" + line);
             }
-            return ImgUrl;
         }
 
         private async Task<String> IloliUpoadAsync(string line)
         {
-
-
             String ImgUrl = "";
             ImgUrl = await ILoli.UploadImgAsync(line, uploadProgress);
-            if (ImgUrl != "")
-            {
-                ProgerssBarResflush();
-
-            }
-            else
-            {
-                Console.WriteLine("失败" + line);
-            }
+            Refluesh(line, ImgUrl);
             return ImgUrl;
         }
         /// <summary>
@@ -169,7 +171,7 @@ namespace PicBad
         private void uploadProgress(object sender, UploadProgressChangedEventArgs e)
         {
 
-            if (e.ProgressPercentage > 0)
+            if (e.ProgressPercentage > 0&&e.ProgressPercentage<=100)
                 progressBar2.Value = e.ProgressPercentage;
 
         }
@@ -240,7 +242,7 @@ namespace PicBad
 
         private void button8_Click(object sender, EventArgs e)
         {
-           
+
         }
     }
 }

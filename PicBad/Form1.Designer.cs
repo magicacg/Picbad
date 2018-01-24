@@ -257,6 +257,7 @@
             this.comboBox1.Items.AddRange(new object[] {
             "ILOLI(无损)",
             "Upload.cc(无损)",
+            "Pixhost(无损)",
             "偷揉(有损)"});
             this.comboBox1.Location = new System.Drawing.Point(21, 185);
             this.comboBox1.Name = "comboBox1";

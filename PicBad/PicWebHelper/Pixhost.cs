@@ -59,7 +59,7 @@ namespace PicBed.PicWebHelper
 
                     PixHostJson.Root  AllJson = JsonConvert.DeserializeObject<PixHostJson.Root>(Shtml);
 
-                    ImgUrl  = AllJson.show_url;
+                    ImgUrl  = AllJson.th_url.Replace("/thumbs/", "/images/").Replace("https://t", "https://img");
                     Console.WriteLine(ImgUrl);
                 }
                 catch (Exception ex)
